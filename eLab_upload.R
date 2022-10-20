@@ -516,7 +516,7 @@ server <- function(input, output) {
     
     Experiment.IDs <-current.experiment(api.key)
     
-    new.exp.name <- as.character(Experiment.IDs %>%  filter(., grepl("^[[:digit:]]$",Exp.name) ) %>%
+    new.exp.name <- as.character(Experiment.IDs %>%  filter(., grepl("^[[:digit:]]+$",Exp.name) ) %>%
                                    mutate(Exp.name = as.numeric(Exp.name)) %>% 
                                    summarise(max(Exp.name)))    
     
