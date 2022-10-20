@@ -377,7 +377,7 @@ server <- function(input, output) {
     
     
     
-    ProjectName <-inputdata("\\\\cifs.research.erasmusmc.nl/prot0001/DATA 1/2433/2433_INFO/2433_WEB FORM  from Basu Sreya  PI Galjart  Erasmus MC.txt", "ProjectName")
+    ProjectName <-inputdata(input$file1$datapath, "ProjectName")
     PI <- inputdata( input$file1$datapath, "PI")
     NAME <- inputdata( input$file1$datapath, "NAME")
     NAME.search <- inputdata(input$file1$datapath, "NAME") %>% gsub(" ", "%20", .)
@@ -398,7 +398,7 @@ server <- function(input, output) {
     test.project <- ProjectName %in% current.eLab.projects$ProjectName
     test.study <- NAME %in% current.elab.studies$Name
     
-    new.exp.name <- as.character(Experiment.IDs %>%  filter(., grepl("[[:digit:]]$",Exp.name) ) %>%
+    new.exp.name <- as.character(Experiment.IDs %>%  filter(., grepl("^[[:digit:]]+$",Exp.name) ) %>%
                                    mutate(Exp.name = as.numeric(Exp.name)) %>% 
                                    summarise(max(Exp.name)+1))           
     
@@ -516,7 +516,7 @@ server <- function(input, output) {
     
     Experiment.IDs <-current.experiment(api.key)
     
-    new.exp.name <- as.character(Experiment.IDs %>%  filter(., grepl("[[:digit:]]$",Exp.name) ) %>%
+    new.exp.name <- as.character(Experiment.IDs %>%  filter(., grepl("^[[:digit:]]$",Exp.name) ) %>%
                                    mutate(Exp.name = as.numeric(Exp.name)) %>% 
                                    summarise(max(Exp.name)))    
     
