@@ -394,7 +394,10 @@ server <- function(input, output) {
     
     Experiment.IDs <-current.experiment(api.key)
     
-    test.type <- "Academy" %in% client.type
+    Acedemy <- "Academy" %in% client.type
+    Industry <- "Industry" %in% client.type
+    CRO <- "CRO" %in% client.type
+    Other <-  "Other" %in% client.type
     test.project <- ProjectName %in% current.eLab.projects$ProjectName
     test.study <- NAME %in% current.elab.studies$Name
     
@@ -404,7 +407,7 @@ server <- function(input, output) {
     
     
     
-    if(isTRUE(test.type)){
+    if(isTRUE(Acedemy)){
       
       #check if project exists
       if(isTRUE(test.project)) { 
@@ -460,31 +463,91 @@ server <- function(input, output) {
       
       
       
-    }else{
-      #get Industry project ID
+    }else if (isTRUE(Industry)){
+      #get CRO project ID
       Industry.ID <- current.eLab.projects[current.eLab.projects$Name == "Industry", "projectID"]
-      #check if study already exists under industry projects
+      #check if study already exists under other projects
       if(isTRUE(test.study)) {
-        study.identifier <-current.elab.studies[current.elab.studies$Name %in% NAME, "StudyID"]
+        NAME.Industry <- as.character(paste(NAME, Institute, sep = "-"))
+        study.identifier <-current.elab.studies[current.elab.studies$Name %in% NAME.Industry, "StudyID"]
         #if Study already exists, add experiment
         
         Experiment.IDs <- add.experiment( study.identifier, new.exp.name,
                                           api.key)
       }else{
         #create study
-        NAME.industry <- as.character(paste(gsub("%20", " ", NAME), Institute, sep = "-"))
+        NAME.Industry <- as.character(paste(NAME, Institute, sep = "-"))
         
-        current.elab.studies <-add.study(project_ID = project.identifier, study_name = NAME.industry, 
+        current.elab.studies <-add.study(project_ID = Other.ID, study_name = NAME.Industry, 
                                          study = current.elab.studies, api.key)
         
         
-        study.identifier <- as.character(current.elab.studies[current.elab.studies$Name == NAME.industry, "studyID"])
+        study.identifier <- as.character(current.elab.studies[current.elab.studies$Name %in% NAME.Industry, "StudyID"])
         
         #add experiment to created study
         
         
         Experiment.IDs <- add.experiment(study.identifier, new.exp.name,
                                          api.key) 
+      }
+    } else if (isTRUE(CRO)){
+      #get CRO project ID
+      CRO.ID <- current.eLab.projects[current.eLab.projects$Name == "CRO", "projectID"]
+      #check if study already exists under other projects
+      if(isTRUE(test.study)) {
+        NAME.CRO <- as.character(paste(NAME, Institute, sep = "-"))
+        study.identifier <-current.elab.studies[current.elab.studies$Name %in% NAME.CRO, "StudyID"]
+        #if Study already exists, add experiment
+        
+        Experiment.IDs <- add.experiment( study.identifier, new.exp.name,
+                                          api.key)
+      }else{
+        #create study
+        NAME.CRO <- as.character(paste(NAME, Institute, sep = "-"))
+        
+        current.elab.studies <-add.study(project_ID = Other.ID, study_name = NAME.CRO, 
+                                         study = current.elab.studies, api.key)
+        
+        
+        study.identifier <- as.character(current.elab.studies[current.elab.studies$Name %in% NAME.CRO, "StudyID"])
+        
+        #add experiment to created study
+        
+        
+        Experiment.IDs <- add.experiment(study.identifier, new.exp.name,
+                                         api.key) 
+        
+      }
+      
+    } else{
+      #get other project ID
+      Other.ID <- current.eLab.projects[current.eLab.projects$Name == "Other", "projectID"]
+      #check if study already exists under other projects
+      if(isTRUE(test.study)) {
+        NAME.Other <- as.character(paste(NAME, Institute, sep = "-"))
+        study.identifier <-current.elab.studies[current.elab.studies$Name %in% NAME.Other, "StudyID"]
+        #if Study already exists, add experiment
+        
+        Experiment.IDs <- add.experiment( study.identifier, new.exp.name,
+                                          api.key)
+      }else{
+        #create study
+        NAME.Other <- as.character(paste(NAME, Institute, sep = "-"))
+        
+        current.elab.studies <-add.study(project_ID = Other.ID, study_name = NAME.Other, 
+                                         study = current.elab.studies, api.key)
+        
+        
+        study.identifier <- as.character(current.elab.studies[current.elab.studies$Name %in% NAME.Other, "StudyID"])
+        
+        #add experiment to created study
+        
+        
+        Experiment.IDs <- add.experiment(study.identifier, new.exp.name,
+                                         api.key) 
+        
+        
+        
       }
     }
     
@@ -536,7 +599,7 @@ server <- function(input, output) {
   })
   
   output$update.overview <- renderTable({
-    update_overview()
+    update_overview()$updated
   })
   
   
