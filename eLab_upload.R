@@ -127,7 +127,7 @@ server <- function(input, output) {
   "name": "Study.name",
   "statusChanged": "2022-07-05T06:45:50.535Z",
   "description": "All projects from Study.name",
-  "notes": "",
+  "notes": "/",
   "approve": "NOTREQUIRED",
   "created": "2022-07-05T06:45:50.535Z",
   "deleted": true
@@ -164,7 +164,7 @@ server <- function(input, output) {
   "name": "Name",   
   "longname": "project.name",  
   "description": "All projects from PI.name group",  
-  "notes": "",  
+  "notes": "/",  
   "label": [  
     "lable1",
     "lable2", 
@@ -375,7 +375,7 @@ server <- function(input, output) {
     
     api.key <- paste("Bearer", input$token, sep = " ")
     
-    
+ 
     
     ProjectName <-inputdata(input$file1$datapath, "ProjectName")
     PI <- inputdata( input$file1$datapath, "PI")
