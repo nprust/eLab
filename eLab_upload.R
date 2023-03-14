@@ -212,7 +212,7 @@ server <- function(input, output) {
       filter(., Query == "ACADEMY OR INDUSTRY" | Query == "PI LAST NAME" | Query == "PI PREFIX" |
                Query == "PI FIRST NAME" |Query == "FIRST NAME" | Query == "LAST NAME" | 
                Query =="INSTITUTE OR COMPANY NAME" |Query == "DEPARTMENT" ) %>% select(Query, Input) %>%
-      mutate(Input = gsub(" ", "", Input)) %>%
+      mutate(Input = gsub(" ", "", Input), Input = gsub("\\[PI-prefix.*", "", Input)) %>%
       rbind(cbind(Query = "PI", Input = paste(.[.$Query == "PI FIRST NAME",2],
                                               .[.$Query == "PI PREFIX",2], 
                                               .[.$Query == "PI LAST NAME",2], sep = " "))) %>%
