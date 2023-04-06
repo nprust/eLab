@@ -96,7 +96,7 @@ server <- function(input, output) {
        "studyID": "study.name",  
        "name": "new.exp",  
        "status": "PENDING",  
-       "templateID": "615658",  
+       "templateID": "620248",  
        "autoCollaborate": true  
      }'
     
@@ -478,7 +478,7 @@ server <- function(input, output) {
         #create study
         NAME.Industry <- as.character(paste(NAME, Institute, sep = "-"))
         
-        current.elab.studies <-add.study(project_ID = Other.ID, study_name = NAME.Industry, 
+        current.elab.studies <-add.study(project_ID = Industry.ID, study_name = NAME.Industry, 
                                          study = current.elab.studies, api.key)
         
         
@@ -505,7 +505,7 @@ server <- function(input, output) {
         #create study
         NAME.CRO <- as.character(paste(NAME, Institute, sep = "-"))
         
-        current.elab.studies <-add.study(project_ID = Other.ID, study_name = NAME.CRO, 
+        current.elab.studies <-add.study(project_ID = CRO.ID, study_name = NAME.CRO, 
                                          study = current.elab.studies, api.key)
         
         
